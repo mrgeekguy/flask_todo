@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -16,8 +16,13 @@ def submit():
 
 @app.route("/submit_form", methods=["POST"])
 def submit_form():
-    print(request.form)
-    return "Hit Endpoint"
+    data = (f'Topic: { request.form["topic"] } Info: {request.form["info"]}\n')
+    
+    return redirect("/todo")
+
+def submit_data(data):
+    with open("./data/data.txt", "w+") as f:
+        f.write(data)
 
 if __name__ == "__main__":
     app.run()
